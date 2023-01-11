@@ -1,12 +1,17 @@
 import styled from "styled-components";
 
 export const ImgContainer = styled.div`
-  border: 2px solid var(--border);
+  border: 2px solid var(--yellow);
   height: 300px;
-  width: 100%;
-  display: flex;
-  align-content: space-between;
+  width: 300px;
+  /* display: flex;
+  align-content: space-between; */
   position: relative;
+  overflow: hidden;
+`;
+
+export const A = styled.a`
+  margin: auto;
 `;
 
 export const Image = styled.img`
@@ -22,7 +27,7 @@ export const Video = styled.video`
 `;
 
 export const DescBox = styled.div`
-  background-color: var(--gray);
+  background-color: var(--yellow);
   width: 100%;
   height: 10%;
   display: flex;
@@ -33,7 +38,7 @@ export const DescBox = styled.div`
 `;
 
 export const Description = styled.p`
-  color: var(--white);
+  color: var(--navyBlue);
   font-size: 16px;
   font-weight: bold;
 `;

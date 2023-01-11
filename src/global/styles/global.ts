@@ -3,8 +3,8 @@ import { createGlobalStyle } from "styled-components";
 export const GlobalStyle = createGlobalStyle`
 	:root {
 		--white: #f5f5f5;
-		--background: #001427;
-		--border: #F6AE2D;
+		--navyBlue: #001427;
+		--yellow: #F6AE2D;
     --gray: #888;
 	}
 
@@ -15,6 +15,6 @@ export const GlobalStyle = createGlobalStyle`
 	}
 
 	body {
-		background-color: var(--background);
+		background-color: var(--navyBlue);
 	}
 `;

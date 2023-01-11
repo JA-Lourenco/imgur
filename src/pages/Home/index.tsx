@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Main, Grid } from "./styled";
+import { ContainerTitle, PageTitle, Main, Grid } from "./styled";
 
 import { ImageCard } from "../../components/ImageCard";
 
@@ -11,7 +11,6 @@ interface ImagesArray {
   link: string;
   type: string;
 }
-[];
 
 interface ImagesProps {
   id: string;
@@ -19,7 +18,10 @@ interface ImagesProps {
   description: string;
   link: string;
   type: string;
-  images?: ImagesArray;
+  images?: ImagesArray[];
+}
+interface responseProps {
+  data: ImagesProps[];
 }
 
 // useMemo com dependencias conforme parametros
@@ -28,28 +30,37 @@ interface ImagesProps {
 
 export const Home = () => {
   const [images, setImages] = useState<ImagesProps[]>([]);
-  let array: any = [];
 
-  // const repeatComp = () => {
-  // 	const n = 10;
+  const setUpData = (response: Array<ImagesProps>) => {
+    return response.map((item) => {
+      const itemObject = {
+        id: item.id,
+        title: item.title,
+        link: item.link,
+        type: item.type,
+        description: item.description,
+      };
 
-  // 	for (let i = 1; i <= n; i++) {
-  // 		array.push(
-  // 			<ImageCard
-  // 				// source="https://i.imgur.com/ZKBy3sF.jpg"
-  // 				source="https://i.imgur.com/0q7Yn3f.mp4"
-  // 				description="React App"
-  // 			/>
-  // 		);
-  // 	}
-  // };
-  // repeatComp();
+      if (item.images) {
+        itemObject.link = item.images[0].link;
+        itemObject.type = item.images[0].type;
+      }
+
+      return itemObject;
+    });
+  };
 
   const getGallery = async () => {
     try {
-      const resp = await api.get("/gallery/top");
+      const resp = await api.get<responseProps>("/gallery/top");
 
-      setImages(resp.data.data);
+      console.log("RESP >>>>", resp.data.data);
+
+      const imagesTreated = setUpData(resp.data.data);
+
+      console.log("IMAGES TREATED", imagesTreated);
+
+      setImages(imagesTreated);
     } catch (error) {
       console.log(`Error function: ${error}`);
     }
@@ -59,29 +70,25 @@ export const Home = () => {
     getGallery();
   }, []);
 
-  console.log("IMAGES", images);
-
-  images.map((img) =>
-    img.images
-      ? console.log("teste", img.images.link)
-      : console.log("NADA", img.images)
-  );
-
   return (
-    <Main>
-      <Grid>
-        {images.map((image) => {
-          // console.log("image", image);
-          return (
-            <ImageCard
-              key={image.id}
-              source={image.link ? image.link : image.images.link}
-              description={image.title}
-            />
-          );
-        })}
-        {/* {array} */}
-      </Grid>
-    </Main>
+    <>
+      <ContainerTitle>
+        <PageTitle>IMGUR</PageTitle>
+      </ContainerTitle>
+      <Main>
+        <Grid>
+          {images.map((image) => {
+            return (
+              <ImageCard
+                key={image.id}
+                source={image.link}
+                description={image.title}
+                type={image.type}
+              />
+            );
+          })}
+        </Grid>
+      </Main>
+    </>
   );
 };

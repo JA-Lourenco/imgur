@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const myHeader = {
-  Authorization: "",
+  Authorization: "Client-ID 836ff3e00fe4df9",
 };
 
 const api = axios.create({
