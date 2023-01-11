@@ -1,12 +1,19 @@
+import { Loading } from "../Loading";
 import { ImgContainer, A, Image, Video, DescBox, Description } from "./styled";
 
 interface ImageCardProps {
   source: string;
   description: string;
   type?: string;
+  isLoading?: boolean;
 }
 
-export const ImageCard = ({ source, description, type }: ImageCardProps) => {
+export const ImageCard = ({
+  source,
+  description,
+  type,
+  isLoading,
+}: ImageCardProps) => {
   if (description.length > 20) {
     description = `${description.substring(0, 20)}...`;
   }
@@ -25,12 +32,18 @@ export const ImageCard = ({ source, description, type }: ImageCardProps) => {
 
   return (
     <ImgContainer>
-      <A href={source} target="_blank">
-        <ImageOrVideo />
-      </A>
-      <DescBox>
-        <Description>{description}</Description>
-      </DescBox>
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <A href={source} target="_blank">
+            <ImageOrVideo />
+          </A>
+          <DescBox>
+            <Description>{description}</Description>
+          </DescBox>
+        </>
+      )}
     </ImgContainer>
   );
 };

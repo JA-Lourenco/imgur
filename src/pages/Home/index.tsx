@@ -5,6 +5,7 @@ import { ContainerTitle, PageTitle, Main, Grid } from "./styled";
 import { ImageCard } from "../../components/ImageCard";
 
 import api from "../../services/api";
+import { Loading } from "../../components/Loading";
 
 interface ImagesArray {
   id: string;
@@ -30,6 +31,23 @@ interface responseProps {
 
 export const Home = () => {
   const [images, setImages] = useState<ImagesProps[]>([]);
+  const [section, setSection] = useState("hot");
+  const [isLoading, setIsLoading] = useState(true);
+
+  const Select = () => {
+    const sections = ["hot", "top", "user"];
+
+    return (
+      <select
+        value={section}
+        onChange={(event) => setSection(event.target.value)}
+      >
+        {sections.map((sec) => {
+          return <option>{sec}</option>;
+        })}
+      </select>
+    );
+  };
 
   const setUpData = (response: Array<ImagesProps>) => {
     return response.map((item) => {
@@ -51,43 +69,47 @@ export const Home = () => {
   };
 
   const getGallery = async () => {
+    setIsLoading(true);
     try {
-      const resp = await api.get<responseProps>("/gallery/top");
-
-      console.log("RESP >>>>", resp.data.data);
+      const resp = await api.get<responseProps>(`/gallery/${section}`);
 
       const imagesTreated = setUpData(resp.data.data);
 
-      console.log("IMAGES TREATED", imagesTreated);
-
       setImages(imagesTreated);
     } catch (error) {
-      console.log(`Error function: ${error}`);
+      console.log(`Error getGallery function: ${error}`);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     getGallery();
-  }, []);
+  }, [section]);
 
   return (
     <>
       <ContainerTitle>
         <PageTitle>IMGUR</PageTitle>
+        <Select />
       </ContainerTitle>
       <Main>
-        <Grid>
-          {images.map((image) => {
-            return (
-              <ImageCard
-                key={image.id}
-                source={image.link}
-                description={image.title}
-                type={image.type}
-              />
-            );
-          })}
-        </Grid>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <Grid>
+            {images.map((image) => {
+              return (
+                <ImageCard
+                  key={image.id}
+                  source={image.link}
+                  description={image.title}
+                  type={image.type}
+                />
+              );
+            })}
+          </Grid>
+        )}
       </Main>
     </>
   );

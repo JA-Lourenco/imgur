@@ -22,7 +22,7 @@ export const Grid = styled.div`
   /* width: 80%; */
   padding: 10px;
   display: grid;
-  grid-template-columns: repeat(4, auto);
+  grid-template-columns: repeat(5, auto);
   grid-template-rows: repeat(6, auto);
   grid-gap: 15px;
   justify-items: center;
