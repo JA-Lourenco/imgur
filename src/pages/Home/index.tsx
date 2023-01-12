@@ -1,11 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
-import { ContainerTitle, PageTitle, Main, Grid } from "./styled";
+import {
+  ContainerTitle,
+  ContainerSelects,
+  PageTitle,
+  Main,
+  Grid,
+} from "./styled";
 
 import { ImageCard } from "../../components/ImageCard";
+import { Select } from "../../components/Select";
+import { Loading } from "../../components/Loading";
 
 import api from "../../services/api";
-import { Loading } from "../../components/Loading";
 
 interface ImagesArray {
   id: string;
@@ -16,38 +23,32 @@ interface ImagesArray {
 interface ImagesProps {
   id: string;
   title: string;
-  description: string;
   link: string;
   type: string;
+  description: string;
   images?: ImagesArray[];
 }
 interface responseProps {
   data: ImagesProps[];
 }
 
-// useMemo com dependencias conforme parametros
-// validar se tem extensão no primeiro atributo link, caso contrario utilizar o link do array de images
-// se tiver o atributo array images, eu ja utilizo a validação para video
-
 export const Home = () => {
   const [images, setImages] = useState<ImagesProps[]>([]);
   const [section, setSection] = useState("hot");
+  const [sort, setSort] = useState("viral");
+  const [window, setWindow] = useState("day");
   const [isLoading, setIsLoading] = useState(true);
 
-  const Select = () => {
-    const sections = ["hot", "top", "user"];
+  const optForSections = ["hot", "top", "user"];
+  const windowParams = ["day", "week", "month", "year", "all"];
 
-    return (
-      <select
-        value={section}
-        onChange={(event) => setSection(event.target.value)}
-      >
-        {sections.map((sec) => {
-          return <option>{sec}</option>;
-        })}
-      </select>
-    );
-  };
+  const sortOptions = useMemo(() => {
+    const sortParams = ["viral", "top", "time"];
+
+    if (section === "user") sortParams.push("rising");
+
+    return sortParams;
+  }, [section]);
 
   const setUpData = (response: Array<ImagesProps>) => {
     return response.map((item) => {
@@ -71,7 +72,9 @@ export const Home = () => {
   const getGallery = async () => {
     setIsLoading(true);
     try {
-      const resp = await api.get<responseProps>(`/gallery/${section}`);
+      const resp = await api.get<responseProps>(
+        `/gallery/${section}/${sort}/${window}`
+      );
 
       const imagesTreated = setUpData(resp.data.data);
 
@@ -85,14 +88,33 @@ export const Home = () => {
 
   useEffect(() => {
     getGallery();
-  }, [section]);
+  }, [section, sort, window]);
 
   return (
     <>
       <ContainerTitle>
         <PageTitle>IMGUR</PageTitle>
-        <Select />
       </ContainerTitle>
+      <ContainerSelects>
+        <Select
+          value={section}
+          options={optForSections}
+          onChangeOptions={(value: string) => setSection(value)}
+        />
+        <Select
+          value={sort}
+          options={sortOptions}
+          onChangeOptions={(value: string) => setSort(value)}
+        />
+        {section === "top" && (
+          <Select
+            value={window}
+            options={windowParams}
+            onChangeOptions={(value: string) => setWindow(value)}
+          />
+        )}
+      </ContainerSelects>
+
       <Main>
         {isLoading ? (
           <Loading />

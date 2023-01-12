@@ -2,7 +2,14 @@ import styled from "styled-components";
 
 export const ContainerTitle = styled.div`
   text-align: center;
-  padding: 50px;
+  padding: 25px;
+`;
+
+export const ContainerSelects = styled.div`
+  width: 80%;
+  margin: 0 auto 20px;
+  display: flex;
+  justify-content: center;
 `;
 
 export const PageTitle = styled.h1`
@@ -18,13 +25,9 @@ export const Main = styled.main`
 `;
 
 export const Grid = styled.div`
-  border: 2px dotted var(--yellow);
-  /* width: 80%; */
-  padding: 10px;
   display: grid;
-  grid-template-columns: repeat(5, auto);
+  grid-template-columns: repeat(4, auto);
   grid-template-rows: repeat(6, auto);
   grid-gap: 15px;
   justify-items: center;
-  flex-wrap: wrap;
 `;
