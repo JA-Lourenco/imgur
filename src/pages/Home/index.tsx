@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from "react";
+import api from "../../services/api";
 
 import {
   ContainerTitle,
@@ -12,7 +13,8 @@ import { ImageCard } from "../../components/ImageCard";
 import { Select } from "../../components/Select";
 import { Loading } from "../../components/Loading";
 
-import api from "../../services/api";
+import { useDispatch, useSelector } from "react-redux";
+import { setImages } from "../../features/images/images-slice";
 
 interface ImagesArray {
   id: string;
@@ -28,12 +30,12 @@ interface ImagesProps {
   description: string;
   images?: ImagesArray[];
 }
-interface responseProps {
+interface ResponseProps {
   data: ImagesProps[];
 }
 
 export const Home = () => {
-  const [images, setImages] = useState<ImagesProps[]>([]);
+  // const [images, setImages] = useState<ImagesProps[]>([]);
   const [section, setSection] = useState("hot");
   const [sort, setSort] = useState("viral");
   const [window, setWindow] = useState("day");
@@ -42,12 +44,21 @@ export const Home = () => {
   const optForSections = ["hot", "top", "user"];
   const windowParams = ["day", "week", "month", "year", "all"];
 
-  const sortOptions = useMemo(() => {
-    const sortParams = ["viral", "top", "time"];
+  const dispatch = useDispatch();
 
-    if (section === "user") sortParams.push("rising");
+  const images = useSelector((state) => state.images.images);
+  console.log("images", images);
 
-    return sortParams;
+  const handleImages = (payload: any) => {
+    dispatch(setImages(payload));
+  };
+
+  const sortParams = useMemo(() => {
+    const sortOptions = ["viral", "top", "time"];
+
+    if (section === "user") sortOptions.push("rising");
+
+    return sortOptions;
   }, [section]);
 
   const setUpData = (response: Array<ImagesProps>) => {
@@ -72,13 +83,15 @@ export const Home = () => {
   const getGallery = async () => {
     setIsLoading(true);
     try {
-      const resp = await api.get<responseProps>(
+      const resp = await api.get<ResponseProps>(
         `/gallery/${section}/${sort}/${window}`
       );
 
       const imagesTreated = setUpData(resp.data.data);
 
-      setImages(imagesTreated);
+      console.log("imagesTreated", imagesTreated);
+
+      handleImages(imagesTreated);
     } catch (error) {
       console.log(`Error getGallery function: ${error}`);
     } finally {
@@ -103,7 +116,7 @@ export const Home = () => {
         />
         <Select
           value={sort}
-          options={sortOptions}
+          options={sortParams}
           onChangeOptions={(value: string) => setSort(value)}
         />
         {section === "top" && (
