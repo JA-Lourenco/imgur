@@ -54,14 +54,14 @@ export const Grid = styled.div<GridProps>`
 
   @media ${device.laptopL} {
     grid-template-columns: repeat(
-      ${({ gridSize }) => (gridSize ? 2 : 4)},
+      ${({ gridSize }) => (gridSize ? 4 : 2)},
       auto
     );
   }
 
   @media ${device.desktop} {
     grid-template-columns: repeat(
-      ${({ gridSize }) => (gridSize ? 3 : 5)},
+      ${({ gridSize }) => (gridSize ? 6 : 3)},
       auto
     );
   }
