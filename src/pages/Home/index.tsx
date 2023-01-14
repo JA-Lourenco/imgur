@@ -48,10 +48,11 @@ interface SelectorProps {
 }
 
 export const Home = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [gridLayout, setGridLayout] = useState(5);
   const [section, setSection] = useState("hot");
   const [sort, setSort] = useState("viral");
   const [window, setWindow] = useState("day");
-  const [isLoading, setIsLoading] = useState(true);
 
   const optForSections = ["hot", "top", "user"];
   const windowParams = ["day", "week", "month", "year", "all"];

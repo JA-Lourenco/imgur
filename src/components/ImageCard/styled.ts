@@ -4,8 +4,6 @@ export const ImgContainer = styled.div`
   border: 2px solid var(--yellow);
   height: 300px;
   width: 300px;
-  /* display: flex;
-  align-content: space-between; */
   position: relative;
   overflow: hidden;
 `;

@@ -1,4 +1,7 @@
 import styled from "styled-components";
+import { device } from "../../global/styles/breakpoints";
+
+interface GridProps {}
 
 export const ContainerTitle = styled.div`
   text-align: center;
@@ -24,10 +27,25 @@ export const Main = styled.main`
   justify-content: center;
 `;
 
-export const Grid = styled.div`
+export const Grid = styled.div<GridProps>`
   display: grid;
-  grid-template-columns: repeat(4, auto);
-  grid-template-rows: repeat(6, auto);
   grid-gap: 15px;
+  grid-template-columns: repeat(1, auto);
   justify-items: center;
+
+  @media ${device.tablet} {
+    grid-template-columns: repeat(2, auto);
+  }
+
+  @media ${device.laptop} {
+    grid-template-columns: repeat(3, auto);
+  }
+
+  @media ${device.laptopL} {
+    grid-template-columns: repeat(4, auto);
+  }
+
+  @media ${device.desktop} {
+    grid-template-columns: repeat(5, auto);
+  }
 `;
