@@ -15,6 +15,7 @@ import { Loading } from "../../components/Loading";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setImages } from "../../features/images/images-slice";
+import { ImagesState } from "../../features/images/images-slice";
 
 interface ImagesArray {
   id: string;
@@ -22,20 +23,31 @@ interface ImagesArray {
   type: string;
 }
 
-interface ImagesProps {
+interface ImagesReqProps {
   id: string;
   title: string;
   link: string;
   type: string;
-  description: string;
   images?: ImagesArray[];
 }
 interface ResponseProps {
-  data: ImagesProps[];
+  data: ImagesReqProps[];
+}
+
+interface ImagesData {
+  id: string;
+  title: string;
+  link: string;
+  type: string;
+}
+
+interface SelectorProps {
+  images: {
+    imagesData: ImagesData[];
+  };
 }
 
 export const Home = () => {
-  // const [images, setImages] = useState<ImagesProps[]>([]);
   const [section, setSection] = useState("hot");
   const [sort, setSort] = useState("viral");
   const [window, setWindow] = useState("day");
@@ -46,11 +58,10 @@ export const Home = () => {
 
   const dispatch = useDispatch();
 
-  const images = useSelector((state) => state.images.images);
-  console.log("images", images);
+  const images = useSelector((state: SelectorProps) => state.images.imagesData);
 
-  const handleImages = (payload: any) => {
-    dispatch(setImages(payload));
+  const handleImages = (payload: ImagesState) => {
+    dispatch(setImages(payload.imagesData));
   };
 
   const sortParams = useMemo(() => {
@@ -61,14 +72,13 @@ export const Home = () => {
     return sortOptions;
   }, [section]);
 
-  const setUpData = (response: Array<ImagesProps>) => {
+  const setUpData = (response: Array<ImagesReqProps>) => {
     return response.map((item) => {
       const itemObject = {
         id: item.id,
         title: item.title,
         link: item.link,
         type: item.type,
-        description: item.description,
       };
 
       if (item.images) {
@@ -91,7 +101,7 @@ export const Home = () => {
 
       console.log("imagesTreated", imagesTreated);
 
-      handleImages(imagesTreated);
+      handleImages({ imagesData: imagesTreated });
     } catch (error) {
       console.log(`Error getGallery function: ${error}`);
     } finally {

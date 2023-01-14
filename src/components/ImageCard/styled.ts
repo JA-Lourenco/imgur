@@ -18,12 +18,14 @@ export const Image = styled.img`
   cursor: pointer;
   height: 100%;
   width: 100%;
+  object-fit: cover;
 `;
 
 export const Video = styled.video`
   cursor: pointer;
   height: 100%;
   width: 100%;
+  object-fit: cover;
 `;
 
 export const DescBox = styled.div`

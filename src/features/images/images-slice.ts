@@ -1,19 +1,18 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface ImagesProps {
   id: string;
   title: string;
   link: string;
   type: string;
-  description: string;
 }
 
-interface ImagesState {
-  images: ImagesProps[];
+export interface ImagesState {
+  imagesData: ImagesProps[];
 }
 
 const initialState: ImagesState = {
-  images: [],
+  imagesData: [],
 };
 
 export const imagesSlice = createSlice({
@@ -22,8 +21,8 @@ export const imagesSlice = createSlice({
   initialState,
 
   reducers: {
-    setImages: (state, action) => {
-      state.images = action.payload;
+    setImages: (state, action: PayloadAction<Array<ImagesProps>>) => {
+      state.imagesData = action.payload;
     },
   },
 });
