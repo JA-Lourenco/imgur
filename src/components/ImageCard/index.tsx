@@ -10,7 +10,6 @@ export const ImageCard = ({ source, description, type }: ImageCardProps) => {
   if (description.length > 20) {
     description = `${description.substring(0, 20)}...`;
   }
-  // source = "https://i.imgur.com/XEjZwlJ.jpg";
 
   const ImageOrVideo = () => {
     if (source.includes(".mp4")) {

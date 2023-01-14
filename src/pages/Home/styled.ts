@@ -68,8 +68,10 @@ export const Grid = styled.div<GridProps>`
 `;
 
 export const Button = styled.button`
-  width: 80px;
   height: 40px;
+  padding: 0 10px;
+  font-size: 16px;
+  font-weight: bold;
   background-color: var(--navyBlue);
   color: var(--yellow);
   border: 1px solid var(--yellow);
@@ -79,9 +81,8 @@ export const Button = styled.button`
 
   &:hover {
     cursor: pointer;
-    transition: all 0.4s ease;
+    transition: all 0.4s linear;
     background-color: var(--yellow);
     color: var(--navyBlue);
-    font-weight: bold;
   }
 `;
