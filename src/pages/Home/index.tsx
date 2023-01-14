@@ -7,6 +7,7 @@ import {
   PageTitle,
   Main,
   Grid,
+  Button,
 } from "./styled";
 
 import { ImageCard } from "../../components/ImageCard";
@@ -49,7 +50,7 @@ interface SelectorProps {
 
 export const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [gridLayout, setGridLayout] = useState(5);
+  const [gridLayout, setGridLayout] = useState(true);
   const [section, setSection] = useState("hot");
   const [sort, setSort] = useState("viral");
   const [window, setWindow] = useState("day");
@@ -64,6 +65,8 @@ export const Home = () => {
   const handleImages = (payload: ImagesState) => {
     dispatch(setImages(payload.imagesData));
   };
+
+  const handleChangeLayout = () => setGridLayout((prevState) => !prevState);
 
   const sortParams = useMemo(() => {
     const sortOptions = ["viral", "top", "time"];
@@ -100,8 +103,6 @@ export const Home = () => {
 
       const imagesTreated = setUpData(resp.data.data);
 
-      console.log("imagesTreated", imagesTreated);
-
       handleImages({ imagesData: imagesTreated });
     } catch (error) {
       console.log(`Error getGallery function: ${error}`);
@@ -118,6 +119,7 @@ export const Home = () => {
     <>
       <ContainerTitle>
         <PageTitle>IMGUR</PageTitle>
+        <Button onClick={() => handleChangeLayout()}>Tamanho Grid</Button>
       </ContainerTitle>
       <ContainerSelects>
         <Select
@@ -143,7 +145,7 @@ export const Home = () => {
         {isLoading ? (
           <Loading />
         ) : (
-          <Grid>
+          <Grid gridSize={gridLayout}>
             {images.map((image) => {
               return (
                 <ImageCard
