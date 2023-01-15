@@ -26,6 +26,7 @@ import {
   setSection,
   SectionProps,
 } from "../../features/sections/sections-slice";
+import { setSort, SortsProps } from "../../features/sort/sort-slice";
 
 interface ImagesArray {
   id: string;
@@ -68,8 +69,14 @@ interface SectionSelectorProps {
   };
 }
 
+interface SortSelectorProps {
+  sorts: {
+    sort: string;
+  };
+}
+
 export const Home = () => {
-  const [sort, setSort] = useState("viral");
+  // const [sort, setSort] = useState("viral");
   const [window, setWindow] = useState("day");
 
   const optForSections = ["hot", "top", "user"];
@@ -89,6 +96,7 @@ export const Home = () => {
   const section = useSelector(
     (state: SectionSelectorProps) => state.sections.section
   );
+  const sort = useSelector((state: SortSelectorProps) => state.sorts.sort);
 
   const handleImages = (payload: ImagesState) => {
     dispatch(setImages(payload.imagesData));
@@ -104,6 +112,10 @@ export const Home = () => {
 
   const handleSections = (payload: SectionProps) => {
     dispatch(setSection(payload.section));
+  };
+
+  const handleSorts = (payload: SortsProps) => {
+    dispatch(setSort(payload.sort));
   };
 
   const sortParams = useMemo(() => {
@@ -170,7 +182,7 @@ export const Home = () => {
         <Select
           value={sort}
           options={sortParams}
-          onChangeOptions={(value: string) => setSort(value)}
+          onChangeOptions={(value: string) => handleSorts({ sort: value })}
         />
         {section === "top" && (
           <Select
