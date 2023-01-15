@@ -8,6 +8,10 @@ export const GlobalStyle = createGlobalStyle`
     --gray: #888;
 	}
 
+  html {
+    scroll-behavior: smooth;
+  }
+
 	* {
 		margin: 0;
 		padding: 0;

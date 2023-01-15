@@ -8,6 +8,7 @@ import {
   Main,
   Grid,
   Button,
+  Footer,
 } from "./styled";
 
 import { ImageCard } from "../../components/ImageCard";
@@ -83,6 +84,11 @@ interface WindowSelectorProps {
 }
 
 export const Home = () => {
+  const scrollToTop = () => {
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  };
+
   const dispatch = useDispatch();
 
   const images = useSelector(
@@ -224,6 +230,10 @@ export const Home = () => {
           </Grid>
         )}
       </Main>
+
+      <Footer>
+        <Button onClick={() => scrollToTop()}>Voltar ao Topo</Button>
+      </Footer>
     </>
   );
 };

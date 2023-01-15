@@ -5,7 +5,7 @@ interface GridProps {
   gridSize: boolean;
 }
 
-export const ContainerTitle = styled.div`
+export const ContainerTitle = styled.header`
   text-align: center;
   padding: 25px;
 `;
@@ -85,4 +85,11 @@ export const Button = styled.button`
     background-color: var(--yellow);
     color: var(--navyBlue);
   }
+`;
+
+export const Footer = styled.footer`
+  margin: auto;
+  padding: 50px;
+  display: flex;
+  justify-content: center;
 `;
