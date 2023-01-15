@@ -4,6 +4,7 @@ import { loadingReducer } from "./features/loading/loading-slice";
 import { gridLayoutReducer } from "./features/gridLayout/gridLayout-slice";
 import { sectionReducer } from "./features/sections/sections-slice";
 import { sortReducer } from "./features/sort/sort-slice";
+import { windowReducer } from "./features/window/window-slice";
 
 export const store = configureStore({
   reducer: {
@@ -12,5 +13,6 @@ export const store = configureStore({
     gridLayout: gridLayoutReducer,
     sections: sectionReducer,
     sorts: sortReducer,
+    windows: windowReducer,
   },
 });

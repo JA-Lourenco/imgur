@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import api from "../../services/api";
 
 import {
@@ -27,6 +27,7 @@ import {
   SectionProps,
 } from "../../features/sections/sections-slice";
 import { setSort, SortsProps } from "../../features/sort/sort-slice";
+import { setWindow, WindowsProps } from "../../features/window/window-slice";
 
 interface ImagesArray {
   id: string;
@@ -75,13 +76,13 @@ interface SortSelectorProps {
   };
 }
 
+interface WindowSelectorProps {
+  windows: {
+    window: string;
+  };
+}
+
 export const Home = () => {
-  // const [sort, setSort] = useState("viral");
-  const [window, setWindow] = useState("day");
-
-  const optForSections = ["hot", "top", "user"];
-  const windowParams = ["day", "week", "month", "year", "all"];
-
   const dispatch = useDispatch();
 
   const images = useSelector(
@@ -97,6 +98,9 @@ export const Home = () => {
     (state: SectionSelectorProps) => state.sections.section
   );
   const sort = useSelector((state: SortSelectorProps) => state.sorts.sort);
+  const window = useSelector(
+    (state: WindowSelectorProps) => state.windows.window
+  );
 
   const handleImages = (payload: ImagesState) => {
     dispatch(setImages(payload.imagesData));
@@ -117,6 +121,13 @@ export const Home = () => {
   const handleSorts = (payload: SortsProps) => {
     dispatch(setSort(payload.sort));
   };
+
+  const handleWindows = (payload: WindowsProps) => {
+    dispatch(setWindow(payload.window));
+  };
+
+  const optForSections = ["hot", "top", "user"];
+  const windowParams = ["day", "week", "month", "year", "all"];
 
   const sortParams = useMemo(() => {
     const sortOptions = ["viral", "top", "time"];
@@ -188,7 +199,9 @@ export const Home = () => {
           <Select
             value={window}
             options={windowParams}
-            onChangeOptions={(value: string) => setWindow(value)}
+            onChangeOptions={(value: string) =>
+              handleWindows({ window: value })
+            }
           />
         )}
       </ContainerSelects>
