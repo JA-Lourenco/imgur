@@ -17,7 +17,9 @@ import { Loading } from "../../components/Loading";
 import { useDispatch, useSelector } from "react-redux";
 import { setImages } from "../../features/images/images-slice";
 import { setLoading } from "../../features/loading/loading-slice";
+import { setGridLayout } from "../../features/gridLayout/gridLayout-slice";
 
+// INTERFACES
 import { ImagesProps, ImagesState } from "../../features/images/images-slice";
 import { LoadingProps } from "../../features/loading/loading-slice";
 
@@ -50,8 +52,13 @@ interface LoadingSelectorProps {
   };
 }
 
+interface GridLayoutSelectorProps {
+  gridLayout: {
+    changeGrid: boolean;
+  };
+}
+
 export const Home = () => {
-  const [gridLayout, setGridLayout] = useState(true);
   const [section, setSection] = useState("hot");
   const [sort, setSort] = useState("viral");
   const [window, setWindow] = useState("day");
@@ -67,6 +74,9 @@ export const Home = () => {
   const isLoading = useSelector(
     (state: LoadingSelectorProps) => state.loading.loading
   );
+  const gridLayout = useSelector(
+    (state: GridLayoutSelectorProps) => state.gridLayout.changeGrid
+  );
 
   const handleImages = (payload: ImagesState) => {
     dispatch(setImages(payload.imagesData));
@@ -76,7 +86,9 @@ export const Home = () => {
     dispatch(setLoading(payload.loading));
   };
 
-  const handleChangeLayout = () => setGridLayout((prevState) => !prevState);
+  const handleChangeLayout = () => {
+    dispatch(setGridLayout());
+  };
 
   const sortParams = useMemo(() => {
     const sortOptions = ["viral", "top", "time"];
