@@ -10,6 +10,7 @@ export const ImgContainer = styled.div`
 
   &:hover {
     scale: 105%;
+    border: none;
     transition: all 0.4s ease;
   }
 `;
@@ -46,5 +47,4 @@ export const DescBox = styled.div`
 export const Description = styled.p`
   color: var(--navyBlue);
   font-size: 16px;
-  font-weight: bold;
 `;

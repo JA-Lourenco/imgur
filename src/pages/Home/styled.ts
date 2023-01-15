@@ -20,7 +20,8 @@ export const ContainerSelects = styled.div`
 export const PageTitle = styled.h1`
   color: var(--yellow);
   font-size: 50px;
-  padding: 20px 0;
+  font-weight: 700;
+  padding-bottom: 40px;
 `;
 
 export const Main = styled.main`
@@ -71,7 +72,6 @@ export const Button = styled.button`
   height: 40px;
   padding: 0 10px;
   font-size: 16px;
-  font-weight: bold;
   background-color: var(--navyBlue);
   color: var(--yellow);
   border: 1px solid var(--yellow);

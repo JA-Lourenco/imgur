@@ -5,7 +5,7 @@ export const SelectComp = styled.select`
   margin: 10px;
   background-color: var(--yellow);
   color: var(--navyBlue);
-  font-weight: bold;
+  font-weight: 700;
   border-radius: 5px;
   border: none;
   outline: none;
