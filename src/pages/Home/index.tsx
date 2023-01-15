@@ -16,7 +16,10 @@ import { Loading } from "../../components/Loading";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setImages } from "../../features/images/images-slice";
-import { ImagesState } from "../../features/images/images-slice";
+import { setLoading } from "../../features/loading/loading-slice";
+
+import { ImagesProps, ImagesState } from "../../features/images/images-slice";
+import { LoadingProps } from "../../features/loading/loading-slice";
 
 interface ImagesArray {
   id: string;
@@ -35,21 +38,19 @@ interface ResponseProps {
   data: ImagesReqProps[];
 }
 
-interface ImagesData {
-  id: string;
-  title: string;
-  link: string;
-  type: string;
+interface ImageSelectorProps {
+  images: {
+    imagesData: ImagesProps[];
+  };
 }
 
-interface SelectorProps {
-  images: {
-    imagesData: ImagesData[];
+interface LoadingSelectorProps {
+  loading: {
+    loading: boolean;
   };
 }
 
 export const Home = () => {
-  const [isLoading, setIsLoading] = useState(true);
   const [gridLayout, setGridLayout] = useState(true);
   const [section, setSection] = useState("hot");
   const [sort, setSort] = useState("viral");
@@ -60,10 +61,19 @@ export const Home = () => {
 
   const dispatch = useDispatch();
 
-  const images = useSelector((state: SelectorProps) => state.images.imagesData);
+  const images = useSelector(
+    (state: ImageSelectorProps) => state.images.imagesData
+  );
+  const isLoading = useSelector(
+    (state: LoadingSelectorProps) => state.loading.loading
+  );
 
   const handleImages = (payload: ImagesState) => {
     dispatch(setImages(payload.imagesData));
+  };
+
+  const handleLoading = (payload: LoadingProps) => {
+    dispatch(setLoading(payload.loading));
   };
 
   const handleChangeLayout = () => setGridLayout((prevState) => !prevState);
@@ -95,7 +105,7 @@ export const Home = () => {
   };
 
   const getGallery = async () => {
-    setIsLoading(true);
+    handleLoading({ loading: true });
     try {
       const resp = await api.get<ResponseProps>(
         `/gallery/${section}/${sort}/${window}`
@@ -107,7 +117,7 @@ export const Home = () => {
     } catch (error) {
       console.log(`Error getGallery function: ${error}`);
     } finally {
-      setIsLoading(false);
+      handleLoading({ loading: false });
     }
   };
 

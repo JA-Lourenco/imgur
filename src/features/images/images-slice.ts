@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface ImagesProps {
+export interface ImagesProps {
   id: string;
   title: string;
   link: string;
