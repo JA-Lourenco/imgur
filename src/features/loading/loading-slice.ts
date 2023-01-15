@@ -8,7 +8,7 @@ const initialState: LoadingProps = {
   loading: true,
 };
 
-export const loadingSlice = createSlice({
+const loadingSlice = createSlice({
   name: "sliceForLoading",
 
   initialState,

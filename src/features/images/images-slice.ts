@@ -15,7 +15,7 @@ const initialState: ImagesState = {
   imagesData: [],
 };
 
-export const imagesSlice = createSlice({
+const imagesSlice = createSlice({
   name: "sliceForImages",
 
   initialState,

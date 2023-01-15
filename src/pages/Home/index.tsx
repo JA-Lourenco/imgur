@@ -15,13 +15,17 @@ import { Select } from "../../components/Select";
 import { Loading } from "../../components/Loading";
 
 import { useDispatch, useSelector } from "react-redux";
-import { setImages } from "../../features/images/images-slice";
-import { setLoading } from "../../features/loading/loading-slice";
+import {
+  setImages,
+  ImagesProps,
+  ImagesState,
+} from "../../features/images/images-slice";
+import { setLoading, LoadingProps } from "../../features/loading/loading-slice";
 import { setGridLayout } from "../../features/gridLayout/gridLayout-slice";
-
-// INTERFACES
-import { ImagesProps, ImagesState } from "../../features/images/images-slice";
-import { LoadingProps } from "../../features/loading/loading-slice";
+import {
+  setSection,
+  SectionProps,
+} from "../../features/sections/sections-slice";
 
 interface ImagesArray {
   id: string;
@@ -58,8 +62,13 @@ interface GridLayoutSelectorProps {
   };
 }
 
+interface SectionSelectorProps {
+  sections: {
+    section: string;
+  };
+}
+
 export const Home = () => {
-  const [section, setSection] = useState("hot");
   const [sort, setSort] = useState("viral");
   const [window, setWindow] = useState("day");
 
@@ -77,6 +86,9 @@ export const Home = () => {
   const gridLayout = useSelector(
     (state: GridLayoutSelectorProps) => state.gridLayout.changeGrid
   );
+  const section = useSelector(
+    (state: SectionSelectorProps) => state.sections.section
+  );
 
   const handleImages = (payload: ImagesState) => {
     dispatch(setImages(payload.imagesData));
@@ -88,6 +100,10 @@ export const Home = () => {
 
   const handleChangeLayout = () => {
     dispatch(setGridLayout());
+  };
+
+  const handleSections = (payload: SectionProps) => {
+    dispatch(setSection(payload.section));
   };
 
   const sortParams = useMemo(() => {
@@ -147,7 +163,9 @@ export const Home = () => {
         <Select
           value={section}
           options={optForSections}
-          onChangeOptions={(value: string) => setSection(value)}
+          onChangeOptions={(value: string) =>
+            handleSections({ section: value })
+          }
         />
         <Select
           value={sort}

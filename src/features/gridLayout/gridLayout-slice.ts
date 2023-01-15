@@ -8,7 +8,7 @@ const initialState: GridLayoutProps = {
   changeGrid: true,
 };
 
-export const gridLayoutSlice = createSlice({
+const gridLayoutSlice = createSlice({
   name: "sliceForGridLayout",
 
   initialState,
